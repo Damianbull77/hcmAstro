@@ -1,0 +1,97 @@
+---
+import {navigation} from '../config/navigation.ts';
+---
+<nav class="main-nav">
+    <ul>
+        {
+            navigation.map((link) => (
+                <li>
+                    <a href={link.url}>
+                        {link.icon && (<i class={link.icon} aria-hidden="true"></i>) } 
+                        {link.title}
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</nav>
+
+<style>
+    
+    .main-nav {
+        margin-top: 0.5rem;
+        display: none;
+    }
+    
+    ul {
+        display: flex;
+        gap: 1rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    a {
+        color: white;
+        text-decoration: none;
+    }
+    
+    a:hover {
+        text-decoration: underline;
+    }
+    
+    
+    @media (min-width: 768px) {
+       .main-nav {
+            display: block !important;
+            position: static; 
+            height: auto; 
+            width: auto;
+            overflow: visible;
+            margin-top: 0.5rem;
+        }
+
+        nav ul {
+            flex-direction: row; 
+            padding: 0;
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    @media (max-width: 768px) {
+        
+    .main-nav.open {
+        display: block !important; 
+        height: auto !important;
+        overflow: visible !important;
+        display: block !important; 
+        position: fixed;           /* ⬅️ AGREGAR ESTO */
+        top: 0;                    /* ⬅️ AGREGAR ESTO */
+        left: 0;                   /* ⬅️ AGREGAR ESTO */
+        width: 100%;               /* ⬅️ AGREGAR ESTO */
+        height: 100vh;             /* ⬅️ AGREGAR ESTO */
+        background-color: #1f2937; /* ⬅️ AGREGAR ESTO */
+        padding: 5rem 2rem;        
+        z-index: 999;    
+    }
+    
+    nav ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .main-nav a {
+        font-size: 1.25rem;
+        padding: 0.75rem 0;
+    }
+    .logo-text{
+        display: none;
+    }
+}
+
+</style>
+

@@ -1,11 +1,198 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import CarruselHabitaciones from "../components/CarruselHabitaciones.astro";
+const pageTitle = "Bienvenidos a Hotel Casa Modelia";
+const API_URL = "https://us-east4-hcm2-99b6c.cloudfunctions.net/getHabitaciones?destacadas=true";
+let habitaciones = [];
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
+try {
+    const response = await fetch(API_URL);
+    
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    habitaciones = data.habitaciones || [];
+    
+    console.log(`✅ Habitaciones cargadas: ${habitaciones.length}`);
+    if (habitaciones.length > 0) {
+        console.log("Primera habitación:", habitaciones[0]);
+    }
+} catch (e) {
+    // Convertimos 'e' a un objeto que TypeScript entienda
+    const error = e as Error & { cause?: any };
+    
+    console.error("❌ ERROR DETALLADO EN EL SERVIDOR:");
+    console.error("Mensaje:", error.message);
+    
+    if (error.cause) {
+        // Esto es lo que nos dirá POR QUÉ falla el fetch en Node.js
+        console.error("Causa técnica:", error.cause);
+    } else {
+        console.error("No se reportó una causa específica.");
+    }
+    
+    habitaciones = []; 
+}
+
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={pageTitle}>
+    <main>
+        <section class="hero-section">
+            <div class="hero-image-container">
+                {/* 1. AGREGAMOS EL ID 'hero-image' al <img> */}
+                <img
+                    id="hero-image"
+                    src="https://firebasestorage.googleapis.com/v0/b/websitehcm-9d151.appspot.com/o/portada%2Fportada.png?alt=media&token=e3179db1-6212-4850-87a3-abf45fb1be58"
+                    alt="Hotel Casa Modelia"
+                    class="hero-image"
+                    loading="eager"
+                />
+            </div>
+            <div class="hero-text">
+                <h1>{pageTitle}</h1>
+                <p>Tu descanso de lujo en el corazón de Colombia</p>
+            </div>
+        </section>
+
+        <section class="previw-habitaciones">
+          <h2>Nuestras Habitaciones</h2>
+          {
+            habitaciones.length > 0 ? (
+              <CarruselHabitaciones habitaciones={habitaciones} />
+            ) : (
+              <p>No hay habitaciones disponibles</p>
+            )
+          }
+        </section>
+    </main>
+
+    {/* 2. AÑADIMOS EL SCRIPT DE FETCH AL FINAL DEL BODY */}
+    <script>
+        // URL de la Cloud Function pública desplegada:
+        const API_URL =
+            "https://us-east4-hcm2-99b6c.cloudfunctions.net/getHomePageContent";
+
+        // Obtenemos el elemento <img> por su ID
+        // Usamos el casting 'as' para decirle a TypeScript que este elemento ES una imagen
+        const heroImageElement = document.getElementById(
+            "hero-image",
+        ) as HTMLImageElement;
+
+        async function fetchHeroContent() {
+            try {
+                const response = await fetch(API_URL);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Parseamos el JSON. Esperamos: { heroImage: 'URL_DE_FIRESTORE' }
+                const data = await response.json();
+                const imageUrl = data.heroImage;
+
+                // Forzamos el tipo de elemento a HTMLImageElement para que acepte .src y .alt
+                const imgElement = heroImageElement;
+
+                if (imgElement && imageUrl) {
+                    // Si el fetch es exitoso, reemplazamos el src estático con el dinámico de Firestore
+                    imgElement.src = imageUrl;
+                    imgElement.alt =
+                        "Imagen principal cargada desde Firestore.";
+                    console.log("Imagen de héroe actualizada:", imageUrl);
+                }
+            } catch (error) {
+                console.error("Error al obtener contenido:", error);
+                // Si falla, el src se mantiene con la URL estática que ya tenías
+            }
+        }    // Ejecutar la función cuando el script se cargue
+        fetchHeroContent();
+    </script>
 </Layout>
+<style>
+    /* ---------------------------------------------------- */
+    /* ESTILOS DE LA SECCIÓN HERO */
+    /* ---------------------------------------------------- */
+    .hero-section {
+        position: relative;
+        height: 40vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+    }
+
+    .hero-image-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1; /* Para que la imagen quede detrás del texto */
+    }
+
+    .hero-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Cubre el contenedor manteniendo el aspecto */
+    }
+
+    .hero-text {
+        position: absolute;
+        top: 20px;
+        z-index: 2; /* Para que el texto quede sobre la imagen */
+        background: rgba(
+            0,
+            0,
+            0,
+            0.5
+        ); /* Fondo semi-transparente para legibilidad */
+        padding: 2rem;
+        border-radius: 8px;
+    }
+
+    .button {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.8rem 1.5rem;
+        background-color: #f39c12; /* Color de botón */
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .button:hover {
+        background-color: #e67e22;
+    }
+    @media (max-width: 768px) {
+        .hero-text {
+            width: 70%;
+            top: 60px;
+        }
+    }
+
+    .previw-habitaciones {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 40px 20px;
+        text-align: center;
+    }
+    .previw-habitaciones h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .previw-habitaciones p {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+</style>

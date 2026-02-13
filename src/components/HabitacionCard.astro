@@ -1,0 +1,113 @@
+---
+// 1. PROPS -datos que recibe la card
+
+import type { Habitacion } from '../types/habitacion';
+interface Props extends Habitacion {}
+const { id, nombre, descripcion, precio_noche, imagen_principal, camas, tipo_cama, banos, wifi, capacidad, destacada, galeria, disponible }: Props = Astro.props;
+---
+
+<a  href={`/habitaciones/${id}`} class="habitacion-card">
+    
+      <img src={imagen_principal} alt={nombre} class="habitacion-card-img"/>
+    
+    <section class="habitacion-card-info-container">
+        <h3>{nombre}</h3>
+        <p>{descripcion}</p>
+        <p>valor por noche: ${precio_noche}</p>
+        <span class="estado-badge disponible">DISPONIBLE</span>
+        <span class="habitacion-card-info">
+            <p>Camas: {camas}</p>
+            <p>Tipo de cama: {tipo_cama}</p>
+            <p>Banos: {banos}</p>
+            <p>Wifi: {wifi ? 'Si' : 'No'}</p>
+            <p>Capacidad: {capacidad}</p>
+        </span>
+    </section>
+</a>
+
+<style>
+    .habitacion-card{
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 12px;
+        color: black;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        width: 280px;  
+        height: 400px;
+        overflow: hidden;       /* Para que el border-radius afecte la imagen */
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .habitacion-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .habitacion-card-img {
+        width: 100%;
+        height: 180px;          /* Altura fija para la imagen */
+        object-fit: cover;
+    }
+
+    .habitacion-card-info-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;     /* ← ESTO centra el texto */
+        padding: 15px;
+        gap: 8px;
+    }
+
+    .habitacion-card-info-container h3 {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .habitacion-card-info-container p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .habitacion-card-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+    }
+
+    .habitacion-card-info p {
+        margin: 0;
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        background: #f5f5f5;
+        border-radius: 4px;
+    }
+    .estado-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.estado-badge.disponible {
+    background: #4CAF50;
+    color: white;
+}
+
+.estado-badge.reservada {
+    background: #f44336;
+    color: white;
+}
+</style>
+    
+    
+
+

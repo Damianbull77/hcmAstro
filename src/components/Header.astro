@@ -1,0 +1,125 @@
+---
+import MainNav from './MainNav.astro';
+---
+
+<section>
+    <header>
+        <h1 class="logo-text">Hotel Casa Modelia</h1>
+        <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav-id">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <MainNav />
+        <a href="/"><img src="https://hotelcasamodelia.com/assets/logoHotelCasaModelia-7e107215.png" alt="Hotel Casa Modelia" class="logo"></a>
+    </header>
+</section>
+
+<style>
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: #1f2937;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .logo {
+        padding: 5px;
+        border-radius: 60px;
+        height: 80px;
+    }
+    h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    
+
+    .menu-toggle {
+        display: block;
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 1.5rem;
+        left: 1rem;
+        z-index: 1000;
+        
+    }
+    .menu-toggle span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        margin: 5px 0;
+        transition: 0.4s;
+    }
+
+    /* Animación del icono hamburguesa a X */
+.menu-toggle.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+
+@media (min-width: 768px) {
+    .logo {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+    }
+    .menu-toggle {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+    .logo-text{
+        display: none;
+    }
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+    }
+}
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mainNav = document.querySelector('.main-nav');
+
+        if (!menuToggle || !mainNav) {
+            console.error('No se encontró el botón o el nav');
+            return;
+        }
+
+        console.log('Script cargado correctamente');
+
+        menuToggle.addEventListener('click', () => {
+            console.log('Click detectado!');
+            mainNav.classList.toggle('open');
+            menuToggle.classList.toggle('open');
+            const isExpanded = mainNav.classList.contains('open');
+            menuToggle.setAttribute('aria-expanded', isExpanded.toString());
+        });
+    });
+</script>
