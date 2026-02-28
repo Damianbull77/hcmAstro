@@ -296,7 +296,7 @@ const { habitaciones } = Astro.props;
     // =============================================
     async function actualizarDisponibilidad() {
         try {
-            const response = await fetch('https://us-east4-hcm2-99b6c.cloudfunctions.net/getDisponibilidad');
+            const response = await fetch('https://us-central1-hcm2-99b6c.cloudfunctions.net/getDisponibilidad');
             const { disponibilidad } = await response.json();
             
             document.querySelectorAll('[data-habitacion-id]').forEach(item => {

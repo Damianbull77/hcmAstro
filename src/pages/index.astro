@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import CarruselHabitaciones from "../components/CarruselHabitaciones.astro";
 const pageTitle = "Bienvenidos a Hotel Casa Modelia";
-const API_URL = "https://us-east4-hcm2-99b6c.cloudfunctions.net/getHabitaciones?destacadas=true";
+const API_URL = "https://us-central1-hcm2-99b6c.cloudfunctions.net/getHabitaciones?destacadas=true";
 let habitaciones = [];
 
 
@@ -74,7 +74,7 @@ try {
     <script>
         // URL de la Cloud Function pública desplegada:
         const API_URL =
-            "https://us-east4-hcm2-99b6c.cloudfunctions.net/getHomePageContent";
+            "https://us-central1-hcm2-99b6c.cloudfunctions.net/getHomePageContent";
 
         // Obtenemos el elemento <img> por su ID
         // Usamos el casting 'as' para decirle a TypeScript que este elemento ES una imagen

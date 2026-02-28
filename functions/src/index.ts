@@ -53,9 +53,9 @@ const homePageContentHandler = async (req: any, res: any) => {
     }
 };
 
-// Exportación FINAL V2 en la región correcta (us-east4)
+
 export const getHomePageContent = onRequest({
-    region: 'us-east4',
+    region: 'us-central1',
     memory: '256MiB',
     serviceAccount: 'hcm2-99b6c@appspot.gserviceaccount.com'
 }, homePageContentHandler as any);
@@ -176,13 +176,13 @@ const getHabitacionHandler = async (req: any, res: any) => {
 
 // Exportar Cloud Functions
 export const getHabitaciones = onRequest({
-    region: 'us-east4',
+    region: 'us-central1',
     memory: '256MiB',
     serviceAccount: 'hcm2-99b6c@appspot.gserviceaccount.com'
 }, getHabitacionesHandler as any);
 
 export const getHabitacion = onRequest({
-    region: 'us-east4',
+    region: 'us-central1',
     memory: '256MiB',
     serviceAccount: 'hcm2-99b6c@appspot.gserviceaccount.com'
 }, getHabitacionHandler as any);
@@ -213,7 +213,7 @@ const getDisponibilidadHandler = async (req: any, res: any) => {
 }
 
 export const getDisponibilidad = onRequest({
-    region: 'us-east4',
+    region: 'us-central1',
     memory: '256MiB',
     serviceAccount: 'hcm2-99b6c@appspot.gserviceaccount.com'
 }, getDisponibilidadHandler as any);
@@ -236,7 +236,7 @@ const createHabitacionHandler = async (req: any, res: any) => {
     try{
         const {habitaciones} = req.body;
 
-        if(habitaciones.length === 0 || !Array.isArray(habitaciones)) {
+        if(!Array.isArray(habitaciones) ||habitaciones.length === 0) {
             return res.status(400).send('Falta el parámetro habitaciones.');
         }
 
@@ -266,7 +266,7 @@ const createHabitacionHandler = async (req: any, res: any) => {
             })
         })
         await batch.commit();
-        return res.status(200).json({ message: `Se crearon ${habitaciones.length} habitaciones` });
+        return res.status(201).json({ message: `Se crearon ${habitaciones.length} habitaciones` });
 
         }catch(error) {
             console.error('Error creating habitacion:', error);
@@ -275,7 +275,7 @@ const createHabitacionHandler = async (req: any, res: any) => {
 }
 
 export const createHabitacion = onRequest({
-    region: 'us-east4',
+    region: 'us-central1',
     memory: '256MiB',
     serviceAccount: 'hcm2-99b6c@appspot.gserviceaccount.com'
 }, createHabitacionHandler as any);
