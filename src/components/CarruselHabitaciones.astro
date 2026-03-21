@@ -1,6 +1,6 @@
 ---
-import HabitacionCard from './HabitacionCard.astro';
-import type { Habitacion } from '../types/habitacion';
+import HabitacionCard from "./HabitacionCard.astro";
+import type { Habitacion } from "../types/habitacion";
 
 interface Props {
     habitaciones: Habitacion[];
@@ -10,19 +10,25 @@ const { habitaciones } = Astro.props;
 ---
 
 <div class="carrusel-container">
-    <button class="carrusel-arrow carrusel-arrow-left" aria-label="Anterior">‹</button>
-    
+    <button class="carrusel-arrow carrusel-arrow-left" aria-label="Anterior"
+        >‹</button
+    >
+
     <div class="carrusel-wrapper">
         <div class="carrusel-track" id="carruselTrack">
-            {habitaciones.map((hab) => (
-                <div class="carrusel-item" data-habitacion-id={hab.id}>
-                    <HabitacionCard {...hab} />
-                </div>
-            ))}
+            {
+                habitaciones.map((hab) => (
+                    <div class="carrusel-item" data-habitacion-id={hab.id}>
+                        <HabitacionCard {...hab} />
+                    </div>
+                ))
+            }
         </div>
     </div>
-    
-    <button class="carrusel-arrow carrusel-arrow-right" aria-label="Siguiente">›</button>
+
+    <button class="carrusel-arrow carrusel-arrow-right" aria-label="Siguiente"
+        >›</button
+    >
 </div>
 
 <style>
@@ -73,8 +79,12 @@ const { habitaciones } = Astro.props;
         color: white;
     }
 
-    .carrusel-arrow-left { left: -25px; }
-    .carrusel-arrow-right { right: -25px; }
+    .carrusel-arrow-left {
+        left: -25px;
+    }
+    .carrusel-arrow-right {
+        right: -25px;
+    }
 
     @media (max-width: 768px) {
         .carrusel-item {
@@ -82,7 +92,9 @@ const { habitaciones } = Astro.props;
             min-width: 100%;
             scroll-snap-align: center;
         }
-        .carrusel-arrow { display: none; }
+        .carrusel-arrow {
+            display: none;
+        }
         .carrusel-wrapper {
             overflow-x: auto;
             overflow-y: hidden;
@@ -122,11 +134,13 @@ const { habitaciones } = Astro.props;
         totalOriginal!: number;
 
         constructor() {
-            this.track = document.getElementById('carruselTrack')!;
+            this.track = document.getElementById("carruselTrack")!;
             if (!this.track) return;
-            
+
             this.wrapper = this.track.parentElement!;
-            this.items = Array.from(this.track.querySelectorAll('.carrusel-item')) as HTMLElement[];
+            this.items = Array.from(
+                this.track.querySelectorAll(".carrusel-item"),
+            ) as HTMLElement[];
             this.totalOriginal = this.items.length;
             this.currentIndex = 0;
             this.itemsVisible = this.getItemsVisible();
@@ -145,7 +159,7 @@ const { habitaciones } = Astro.props;
 
         init() {
             this.createClones();
-            
+
             // En mobile usamos scroll nativo, en desktop usamos transform
             if (window.innerWidth <= 768) {
                 this.initMobile();
@@ -153,13 +167,13 @@ const { habitaciones } = Astro.props;
                 this.initDesktop();
             }
 
-            window.addEventListener('resize', () => {
+            window.addEventListener("resize", () => {
                 const newVisible = this.getItemsVisible();
                 const isMobile = window.innerWidth <= 768;
-                
+
                 if (newVisible !== this.itemsVisible) {
                     this.itemsVisible = newVisible;
-                    
+
                     // Reinicializar según el nuevo tamaño
                     if (isMobile) {
                         this.initMobile();
@@ -172,15 +186,21 @@ const { habitaciones } = Astro.props;
 
         initDesktop() {
             this.updatePosition(false);
-            document.querySelector('.carrusel-arrow-left')?.addEventListener('click', () => this.prev());
-            document.querySelector('.carrusel-arrow-right')?.addEventListener('click', () => this.next());
-            this.track.addEventListener('transitionend', () => this.handleLoop());
+            document
+                .querySelector(".carrusel-arrow-left")
+                ?.addEventListener("click", () => this.prev());
+            document
+                .querySelector(".carrusel-arrow-right")
+                ?.addEventListener("click", () => this.next());
+            this.track.addEventListener("transitionend", () =>
+                this.handleLoop(),
+            );
         }
 
         initMobile() {
             // En mobile, posicionar el scroll al inicio de los items reales
             setTimeout(() => {
-                const items = this.track.querySelectorAll('.carrusel-item');
+                const items = this.track.querySelectorAll(".carrusel-item");
                 if (items.length > 0) {
                     const itemWidth = (items[0] as HTMLElement).offsetWidth;
                     const gap = 20;
@@ -191,7 +211,7 @@ const { habitaciones } = Astro.props;
 
             // Escuchar eventos de scroll para el loop infinito
             let scrollTimeout: NodeJS.Timeout;
-            this.wrapper.addEventListener('scroll', () => {
+            this.wrapper.addEventListener("scroll", () => {
                 if (scrollTimeout) clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => this.handleScrollLoop(), 100);
             });
@@ -199,13 +219,17 @@ const { habitaciones } = Astro.props;
 
         createClones() {
             for (let i = this.itemsVisible - 1; i >= 0; i--) {
-                const clone = this.items[i % this.items.length].cloneNode(true) as HTMLElement;
-                clone.classList.add('clone');
+                const clone = this.items[i % this.items.length].cloneNode(
+                    true,
+                ) as HTMLElement;
+                clone.classList.add("clone");
                 this.track.insertBefore(clone, this.track.firstChild);
             }
             for (let i = 0; i < this.itemsVisible; i++) {
-                const clone = this.items[i % this.items.length].cloneNode(true) as HTMLElement;
-                clone.classList.add('clone');
+                const clone = this.items[i % this.items.length].cloneNode(
+                    true,
+                ) as HTMLElement;
+                clone.classList.add("clone");
                 this.track.appendChild(clone);
             }
         }
@@ -214,16 +238,19 @@ const { habitaciones } = Astro.props;
             // En mobile no usamos transform, usamos scroll nativo
             if (window.innerWidth <= 768) return;
 
-            const allItems = this.track.querySelectorAll('.carrusel-item');
+            const allItems = this.track.querySelectorAll(".carrusel-item");
             if (allItems.length === 0) return;
             const itemWidth = (allItems[0] as HTMLElement).offsetWidth;
             const gap = 20;
-            const offset = (itemWidth + gap) * (this.currentIndex + this.itemsVisible);
-            this.track.style.transition = animate ? 'transform 0.5s ease-in-out' : 'none';
+            const offset =
+                (itemWidth + gap) * (this.currentIndex + this.itemsVisible);
+            this.track.style.transition = animate
+                ? "transform 0.5s ease-in-out"
+                : "none";
             this.track.style.transform = `translateX(-${offset}px)`;
             if (!animate) {
                 this.track.offsetHeight;
-                this.track.style.transition = 'transform 0.5s ease-in-out';
+                this.track.style.transition = "transform 0.5s ease-in-out";
             }
         }
 
@@ -257,7 +284,7 @@ const { habitaciones } = Astro.props;
             // Solo funciona en mobile
             if (window.innerWidth > 768) return;
 
-            const items = this.track.querySelectorAll('.carrusel-item');
+            const items = this.track.querySelectorAll(".carrusel-item");
             if (items.length === 0) return;
 
             const itemWidth = (items[0] as HTMLElement).offsetWidth;
@@ -267,25 +294,28 @@ const { habitaciones } = Astro.props;
 
             const scrollLeft = Math.round(this.wrapper.scrollLeft);
             const firstCloneEnd = singleItemWidth * clonesAtStart;
-            const totalElements = this.totalOriginal + (clonesAtStart * 2);
+            const totalElements = this.totalOriginal + clonesAtStart * 2;
             const lastCloneIndex = totalElements - clonesAtStart;
-            const currentVisibleIndex = Math.round(scrollLeft / singleItemWidth);
+            const currentVisibleIndex = Math.round(
+                scrollLeft / singleItemWidth,
+            );
 
             // Si llegamos al final (clones), saltar al inicio real
             if (currentVisibleIndex >= lastCloneIndex) {
                 this.wrapper.scrollTo({
                     left: firstCloneEnd,
-                    behavior: 'auto'
+                    behavior: "auto",
                 });
             }
             // Si llegamos al inicio (clones), saltar al final real
             else if (currentVisibleIndex < clonesAtStart) {
                 const cloneOffset = clonesAtStart - currentVisibleIndex;
                 const targetIndex = this.totalOriginal - cloneOffset;
-                const targetScroll = firstCloneEnd + (targetIndex * singleItemWidth);
+                const targetScroll =
+                    firstCloneEnd + targetIndex * singleItemWidth;
                 this.wrapper.scrollTo({
                     left: targetScroll,
-                    behavior: 'auto'
+                    behavior: "auto",
                 });
             }
         }
@@ -296,31 +326,35 @@ const { habitaciones } = Astro.props;
     // =============================================
     async function actualizarDisponibilidad() {
         try {
-            const response = await fetch('https://us-central1-hcm2-99b6c.cloudfunctions.net/getDisponibilidad');
+            const response = await fetch(
+                "https://us-central1-hcm2-99b6c.cloudfunctions.net/getDisponibilidad",
+            );
             const { disponibilidad } = await response.json();
-            
-            document.querySelectorAll('[data-habitacion-id]').forEach(item => {
-                const id = item.getAttribute('data-habitacion-id');
-                if (id && disponibilidad[id] !== undefined) {
-                    const badge = item.querySelector('.estado-badge');
-                    if (badge) {
-                        if (disponibilidad[id]) {
-                            badge.textContent = 'DISPONIBLE';
-                            badge.className = 'estado-badge disponible';
-                        } else {
-                            badge.textContent = 'RESERVADA';
-                            badge.className = 'estado-badge reservada';
+
+            document
+                .querySelectorAll("[data-habitacion-id]")
+                .forEach((item) => {
+                    const id = item.getAttribute("data-habitacion-id");
+                    if (id && disponibilidad[id] !== undefined) {
+                        const badge = item.querySelector(".estado-badge");
+                        if (badge) {
+                            if (disponibilidad[id]) {
+                                badge.textContent = "DISPONIBLE";
+                                badge.className = "estado-badge disponible";
+                            } else {
+                                badge.textContent = "RESERVADA";
+                                badge.className = "estado-badge reservada";
+                            }
                         }
                     }
-                }
-            });
+                });
         } catch (error) {
-            console.error('Error actualizando disponibilidad:', error);
+            console.error("Error actualizando disponibilidad:", error);
         }
     }
 
     // Inicializar todo cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener("DOMContentLoaded", () => {
         new CarruselInfinito();
         actualizarDisponibilidad();
     });

@@ -1,21 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CarruselHabitaciones from "../components/CarruselHabitaciones.astro";
+import Descripcion from "../components/Descripcion.astro";
 const pageTitle = "Bienvenidos a Hotel Casa Modelia";
-const API_URL = "https://us-central1-hcm2-99b6c.cloudfunctions.net/getHabitaciones?destacadas=true";
+const API_URL =
+    "https://us-central1-hcm2-99b6c.cloudfunctions.net/getHabitaciones?destacadas=true";
 let habitaciones = [];
-
 
 try {
     const response = await fetch(API_URL);
-    
+
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     const data = await response.json();
     habitaciones = data.habitaciones || [];
-    
+
     console.log(`✅ Habitaciones cargadas: ${habitaciones.length}`);
     if (habitaciones.length > 0) {
         console.log("Primera habitación:", habitaciones[0]);
@@ -23,20 +24,19 @@ try {
 } catch (e) {
     // Convertimos 'e' a un objeto que TypeScript entienda
     const error = e as Error & { cause?: any };
-    
+
     console.error("❌ ERROR DETALLADO EN EL SERVIDOR:");
     console.error("Mensaje:", error.message);
-    
+
     if (error.cause) {
         // Esto es lo que nos dirá POR QUÉ falla el fetch en Node.js
         console.error("Causa técnica:", error.cause);
     } else {
         console.error("No se reportó una causa específica.");
     }
-    
-    habitaciones = []; 
-}
 
+    habitaciones = [];
+}
 ---
 
 <Layout title={pageTitle}>
@@ -58,15 +58,19 @@ try {
             </div>
         </section>
 
+        <section id="descripcion">
+            <Descripcion />
+        </section>
+
         <section class="previw-habitaciones">
-          <h2>Nuestras Habitaciones</h2>
-          {
-            habitaciones.length > 0 ? (
-              <CarruselHabitaciones habitaciones={habitaciones} />
-            ) : (
-              <p>No hay habitaciones disponibles</p>
-            )
-          }
+            <h2>Habitaciones Destacadas</h2>
+            {
+                habitaciones.length > 0 ? (
+                    <CarruselHabitaciones habitaciones={habitaciones} />
+                ) : (
+                    <p>No hay habitaciones disponibles</p>
+                )
+            }
         </section>
     </main>
 
@@ -108,7 +112,7 @@ try {
                 console.error("Error al obtener contenido:", error);
                 // Si falla, el src se mantiene con la URL estática que ya tenías
             }
-        }    // Ejecutar la función cuando el script se cargue
+        } // Ejecutar la función cuando el script se cargue
         fetchHeroContent();
     </script>
 </Layout>

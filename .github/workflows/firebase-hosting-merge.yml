@@ -11,10 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      # Instalamos y buildeamos solo Astro
       - run: npm ci && npm run build
+      
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_HCM2_99B6C }}
           channelId: live
           projectId: hcm2-99b6c
+          # LIMITAMOS EL DESPLIEGUE SOLO A HOSTING AQUÍ:
+          targets: hosting

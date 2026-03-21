@@ -1,0 +1,121 @@
+---
+
+---
+
+<div class="principal">
+    <div class="descripcion">
+        <p>
+            Bienvenido a Hotel Casa Modelia, tu hogar lejos de casa ubicado en
+            el corazón del prestigioso barrio Modelia al occidente de Bogotá. A
+            solo 4 kilómetros del aeropuerto y a 4 kilometros del terminal de
+            transportes salitre y a 400 metros del centro comercial Hayuelos,
+            nuestro hotel cuenta con 22 habitaciones, restaurante bar y
+            Gimnacio. Disfruta de un ambiente familiar y accede a una gran
+            variedad de comercios locales. Ya sea por negocios o placer, Hotel
+            Casa Modelia te ofrece una estancia inolvidable en una de las
+            mejores zonas de la ciudad. ¡Te esperamos con los brazos abiertos!
+        </p>
+    </div>
+    <div class="zonas-sociales">
+        <section>
+            <h3><i class="fa-solid fa-mug-saucer"></i> Desayuno</h3>
+            <p>De lunes a viernes (06:30 - 9:30 am)</p>
+            <p>sabados y domingos (07:00 - 10:00 am)</p>
+            <p>Incluido en todas las reservas.</p>
+        </section>
+        <section>
+            <h3><i class="fa-solid fa-martini-glass"></i> Bar</h3>
+            <p>Acceso al bar.</p>
+        </section>
+        <section>
+            <h3><i class="fa-solid fa-utensils"></i> Restaurante</h3>
+            <p>El servicio de restaurante se encuentra sujeto a reserva.</p>
+        </section>
+        <section>
+            <h3><i class="fa-solid fa-dumbbell"></i> Gimnasio</h3>
+            <p>Ejercítate mientras disfrutas de la mejor estadía.</p>
+        </section>
+        <section>
+            <h3><i class="fa-solid fa-taxi"></i> Transporte</h3>
+            <p>Ofrecemos servicio de transporte in-out.</p>
+        </section>
+    </div>
+</div>
+
+<style>
+    @media only screen and (max-width: 650px) {
+        .zonas-sociales {
+            padding-left: 20px;
+        }
+        .descripcion {
+            padding: 30px;
+        }
+    }
+
+    /* Para mobiles */
+    @media only screen and (min-width: 651px) and (max-width: 700px) {
+        .principal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .descripcion {
+            padding: 10px;
+        }
+
+        .descripcion,
+        .zonas-sociales {
+            width: 50%;
+        }
+
+        .zonas-sociales {
+            padding-left: 20px;
+        }
+    }
+
+    /* Para tablets */
+    @media only screen and (min-width: 701px) and (max-width: 1200px) {
+        .principal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .descripcion {
+            padding: 50px;
+        }
+
+        .descripcion,
+        .zonas-sociales {
+            width: 50%;
+        }
+
+        .zonas-sociales {
+            padding: 50px;
+        }
+    }
+
+    /* Para desktop */
+    @media only screen and (min-width: 1201px) {
+        .principal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .descripcion {
+            padding: 10px 20px 0px 70px;
+        }
+
+        .descripcion,
+        .zonas-sociales {
+            width: 50%;
+        }
+
+        .zonas-sociales {
+            padding: 30px 20px 0px 130px;
+        }
+    }
+</style>
