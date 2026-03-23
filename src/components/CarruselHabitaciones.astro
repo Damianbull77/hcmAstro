@@ -18,9 +18,11 @@ const { habitaciones } = Astro.props;
         <div class="carrusel-track" id="carruselTrack">
             {
                 habitaciones.map((hab) => (
-                    <div class="carrusel-item" data-habitacion-id={hab.id}>
-                        <HabitacionCard {...hab} />
-                    </div>
+                    <a href={`/habitaciones/${hab.id}`}>
+                        <div class="carrusel-item" data-habitacion-id={hab.id}>
+                            <HabitacionCard {...hab} />
+                        </div>
+                    </a>
                 ))
             }
         </div>
