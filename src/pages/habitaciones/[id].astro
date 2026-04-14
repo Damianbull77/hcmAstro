@@ -32,40 +32,37 @@ const precioFormateado = new Intl.NumberFormat("es-CO", {
 ---
 
 <Layout title={`Habitación ${habitacion.nombre} - Hotel Casa Modelia`}>
-    <main class="max-w-7xl mx-auto px-4 py-12">
+    <main class="habitacion-main">
         <!-- Navegación de migas de pan / Volver -->
-        <nav class="mb-8">
-            <a
-                href="/"
-                class="text-orange-600 hover:text-orange-700 font-medium flex items-center gap-2"
-            >
+        <nav class="breadcrumb">
+            <a href="/" class="breadcrumb-link">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
+                    class="breadcrumb-icon"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                 >
                     <path
                         fill-rule="evenodd"
-                        d=" cooperatives9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
+                        d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
                         clip-rule="evenodd"></path>
                 </svg>
                 Volver al inicio
             </a>
         </nav>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <!-- COLUMNA IZQUIERDA: GALERÍA (7/12 columnas) -->
-            <div class="lg:col-span-7 space-y-6">
-                <div class="relative group">
+        <div class="content-grid">
+            <!-- COLUMNA IZQUIERDA: GALERÍA -->
+            <div class="gallery-column">
+                <div class="main-image-container">
                     <img
                         src={habitacion.imagen_principal}
                         alt={habitacion.nombre}
-                        class="w-full h-[500px] object-cover rounded-2xl shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]"
+                        class="main-image"
                     />
                     {
                         habitacion.destacada && (
-                            <span class="absolute top-4 left-4 bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider">
+                            <span class="featured-badge">
                                 Favorita de los huéspedes
                             </span>
                         )
@@ -73,36 +70,36 @@ const precioFormateado = new Intl.NumberFormat("es-CO", {
                 </div>
 
                 <!-- Galería Secundaria Dinámica -->
-                <div class="grid grid-cols-3 gap-4">
+                <div class="gallery-grid">
                     {
                         habitacion.galeria?.cama && (
-                            <div class="overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+                            <div class="gallery-item">
                                 <img
                                     src={habitacion.galeria.cama}
                                     alt="Cama"
-                                    class="w-full h-32 object-cover hover:scale-110 transition duration-300"
+                                    class="gallery-image"
                                 />
                             </div>
                         )
                     }
                     {
                         habitacion.galeria?.bano && (
-                            <div class="overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+                            <div class="gallery-item">
                                 <img
                                     src={habitacion.galeria.bano}
                                     alt="Baño"
-                                    class="w-full h-32 object-cover hover:scale-110 transition duration-300"
+                                    class="gallery-image"
                                 />
                             </div>
                         )
                     }
                     {
                         habitacion.galeria?.closet && (
-                            <div class="overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+                            <div class="gallery-item">
                                 <img
                                     src={habitacion.galeria.closet}
                                     alt="Armario"
-                                    class="w-full h-32 object-cover hover:scale-110 transition duration-300"
+                                    class="gallery-image"
                                 />
                             </div>
                         )
@@ -110,83 +107,297 @@ const precioFormateado = new Intl.NumberFormat("es-CO", {
                 </div>
             </div>
 
-            <!-- COLUMNA DERECHA: INFO Y RESERVA (5/12 columnas) -->
-            <div class="lg:col-span-5 flex flex-col justify-start">
-                <h1 class="text-5xl font-extrabold text-gray-900 mb-2">
-                    {habitacion.nombre}
-                </h1>
-                <p class="text-3xl font-bold text-green-700 mb-6">
+            <!-- COLUMNA DERECHA: INFO Y RESERVA -->
+            <div class="info-column">
+                <h1 class="room-title">{habitacion.nombre}</h1>
+
+                <p class="room-price">
                     {precioFormateado}
-                    <span class="text-base text-gray-500 font-normal"
-                        >/ noche</span
-                    >
+                    <span class="price-unit">/ noche</span>
                 </p>
 
-                <div class="prose prose-orange text-gray-700 mb-8">
-                    <h3
-                        class="text-lg font-bold text-gray-900 uppercase tracking-wide border-b pb-2 mb-4"
-                    >
-                        Sobre esta habitación
-                    </h3>
-                    <p class="leading-relaxed">{habitacion.descripcion}</p>
+                <div class="description-section">
+                    <h3 class="section-title">Sobre esta habitación</h3>
+                    <p class="description-text">{habitacion.descripcion}</p>
                 </div>
 
-                <!-- Especificaciones con Iconos (Simulados con texto) -->
-                <div
-                    class="grid grid-cols-2 gap-y-4 mb-8 bg-gray-50 p-6 rounded-2xl"
-                >
-                    <div class="flex flex-col">
-                        <span class="text-xs uppercase text-gray-500 font-bold"
-                            >Capacidad</span
-                        >
-                        <span class="font-semibold text-gray-800"
+                <!-- Especificaciones -->
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Capacidad</span>
+                        <span class="spec-value"
                             >{habitacion.capacidad} Personas</span
                         >
                     </div>
-                    <div class="flex flex-col">
-                        <span class="text-xs uppercase text-gray-500 font-bold"
-                            >Camas</span
-                        >
-                        <span class="font-semibold text-gray-800"
+                    <div class="spec-item">
+                        <span class="spec-label">Camas</span>
+                        <span class="spec-value"
                             >{habitacion.camas} ({habitacion.tipo_cama})</span
                         >
                     </div>
-                    <div class="flex flex-col">
-                        <span class="text-xs uppercase text-gray-500 font-bold"
-                            >Baños</span
-                        >
-                        <span class="font-semibold text-gray-800"
+                    <div class="spec-item">
+                        <span class="spec-label">Baños</span>
+                        <span class="spec-value"
                             >{habitacion.banos} Privado(s)</span
                         >
                     </div>
-                    <div class="flex flex-col">
-                        <span class="text-xs uppercase text-gray-500 font-bold"
-                            >Conectividad</span
-                        >
-                        <span class="font-semibold text-gray-800"
-                            >{
-                                habitacion.wifi
-                                    ? "Wi-Fi Gratis"
-                                    : "No disponible"
-                            }</span
-                        >
+                    <div class="spec-item">
+                        <span class="spec-label">Conectividad</span>
+                        <span class="spec-value">
+                            {habitacion.wifi ? "Wi-Fi Gratis" : "No disponible"}
+                        </span>
                     </div>
                 </div>
 
-                <!-- Amenidades adicionales -->
-
-                <!-- Botón de Reserva Directo -->
+                <!-- Botón de Reserva -->
                 <a
                     href={`https://wa.me/573000000000?text=Hola,%20me%20gustaría%20reservar%20la%20${encodeURIComponent(habitacion.nombre)}.%20¿Me%20podrían%20dar%20información%20sobre%20disponibilidad?`}
                     target="_blank"
-                    class="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-black py-5 rounded-2xl shadow-xl transition-all transform hover:-translate-y-1 active:scale-95 text-xl"
+                    class="reserve-button"
                 >
                     ¡Reservar ahora!
                 </a>
-                <p class="text-center text-xs text-gray-400 mt-4 italic">
+                <p class="reserve-note">
                     Reserva garantizada vía WhatsApp Business
                 </p>
             </div>
         </div>
     </main>
 </Layout>
+
+<style>
+    .habitacion-main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+    }
+
+    .breadcrumb {
+        margin-bottom: 2rem;
+    }
+
+    .breadcrumb-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #16a34a;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .breadcrumb-link:hover {
+        color: #16a34a;
+    }
+
+    .breadcrumb-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+    }
+
+    .gallery-column {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .main-image-container {
+        position: relative;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .main-image {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+
+    .main-image-container:hover .main-image {
+        transform: scale(1.01);
+    }
+
+    .featured-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background-color: #16a34a;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .gallery-item {
+        border-radius: 0.75rem;
+        border: 1px solid #f3f4f6;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-image {
+        width: 100%;
+        height: 128px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-image:hover {
+        transform: scale(1.1);
+    }
+
+    .info-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .room-title {
+        font-size: 3rem;
+        font-weight: 900;
+        color: #111827;
+        margin-bottom: 0.5rem;
+    }
+
+    .room-price {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #15803d;
+        margin-bottom: 1.5rem;
+    }
+
+    .price-unit {
+        font-size: 1rem;
+        font-weight: 400;
+        color: #6b7280;
+    }
+
+    .description-section {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: #111827;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 2px solid #111827;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .description-text {
+        color: #374151;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .specs-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+        background-color: #f9fafb;
+        padding: 1.5rem;
+        border-radius: 1rem;
+    }
+
+    .spec-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .spec-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #6b7280;
+        font-weight: 700;
+    }
+
+    .spec-value {
+        font-weight: 600;
+        color: #1f2937;
+        margin-top: 0.25rem;
+    }
+
+    .reserve-button {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background-color: #16a34a;
+        color: white;
+        padding: 1.25rem;
+        border-radius: 1rem;
+        font-weight: 900;
+        text-decoration: none;
+        font-size: 1.25rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        transform: translateY(0);
+    }
+
+    .reserve-button:hover {
+        background-color: #15803d;
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .reserve-button:active {
+        transform: scale(0.95);
+    }
+
+    .reserve-note {
+        text-align: center;
+        font-size: 0.75rem;
+        color: #9ca3af;
+        margin-top: 1rem;
+        font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+        .habitacion-main {
+            padding: 2rem 1rem;
+        }
+
+        .content-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .room-title {
+            font-size: 2rem;
+        }
+
+        .room-price {
+            font-size: 1.5rem;
+        }
+
+        .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .specs-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>

@@ -11,5 +11,11 @@
   "dependencies": {
     "astro": "^5.9.3",
     "astro-icon": "^1.1.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.9",
+    "tailwindcss": "^4.2.2"
   }
 }
